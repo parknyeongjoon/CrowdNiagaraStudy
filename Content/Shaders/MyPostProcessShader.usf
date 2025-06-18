@@ -1,0 +1,26 @@
+﻿#include "/Engine/Private/Common.ush"
+#include "/Engine/Private/ScreenPass.ush"
+
+SCREEN_PASS_TEXTURE_VIEWPORT(Input)
+SCREEN_PASS_TEXTURE_VIEWPORT(Output)
+
+Texture2D InputTexture;
+SamplerState InputSampler;
+
+// 커스텀 파라미터들
+float4 TintColor;
+float Intensity;
+
+void MainPS(
+	FScreenVertexOutput Input,
+	out float4 OutColor : SV_Target0
+)
+{
+	float2 UV = Input.UV;
+	float4 SceneColor = Texture2DSample(InputTexture, InputSampler, UV);
+    
+	// 간단한 틴트 효과 예시
+	float4 TintedColor = lerp(SceneColor, SceneColor * TintColor, Intensity);
+    
+	OutColor = TintedColor;
+}
