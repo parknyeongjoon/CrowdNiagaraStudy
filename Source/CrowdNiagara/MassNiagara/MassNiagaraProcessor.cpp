@@ -105,17 +105,13 @@ void UMassNiagaraProcessor::Execute(FMassEntityManager& EntityManager, FMassExec
 							Command.Location,
 							Command.Rotation
 						);
+
+					NiagaraComponent->SetRelativeLocation(FVector(1000));
 					
 					if (IsValid(NiagaraComponent) && Command.CustomMesh.Get())
 					{
 						NiagaraComponent->SetVariableObject(FName("User.CustomMesh"), Command.CustomMesh.Get());
-
-						const FNiagaraParameterStore& ParamStore = NiagaraComponent->GetOverrideParameters();
-						
-						NiagaraComponent->MarkRenderStateDirty();
 						NiagaraComponent->ResetSystem();
-						NiagaraComponent->ReinitializeSystem();
-						NiagaraComponent->Activate(true);
 					}
 				}
 			}
